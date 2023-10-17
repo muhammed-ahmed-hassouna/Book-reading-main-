@@ -18,9 +18,8 @@ const db = getFirestore(app);
 
 let box = document.getElementById("check-box2");
 
-let UiD2 = 0;
 
-document.getElementById('signin').addEventListener('click', async function (event, uid) {
+document.getElementById('signin').addEventListener('click', async function (event) {
     event.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -65,6 +64,7 @@ document.getElementById('signin').addEventListener('click', async function (even
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user.uid;
+
             // Fetch user data from Firestore using the user's UID
             sessionStorage.setItem('userId', user);
             return getDoc(doc(db, 'users', email));
@@ -73,6 +73,7 @@ document.getElementById('signin').addEventListener('click', async function (even
             
             if (docSnap.exists()) {
                 const userData = docSnap.data();
+
 
                 const userJSON = JSON.stringify({
                     firstname: userData.firstname,
@@ -93,20 +94,18 @@ document.getElementById('signin').addEventListener('click', async function (even
                 }, 1000);
 
 
-                setTimeout(() => {
-                    fetch("http://localhost:3000/data")
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(`HTTP error! Status: ${response.status}`);
-                            }
-                            return response.json();
-                        })
-                        .then(responseJson => {
-                        })
-
-
-                        .catch(error => console.error("Error retrieving data:", error));
-                }, 1000);
+                // setTimeout(() => {
+                //     fetch("http://localhost:3000/data")
+                //         .then(response => {
+                //             if (!response.ok) {
+                //                 throw new Error(`HTTP error! Status: ${response.status}`);
+                //             }
+                //             return response.json();
+                //         })
+                //         .then(responseJson => {
+                //         })
+                //         .catch(error => console.error("Error retrieving data:", error));
+                // }, 1000);
             } else {
                 showInvalidMsg("User data not found.");
             }
@@ -121,7 +120,7 @@ document.getElementById('signin').addEventListener('click', async function (even
             if (errorCode === 'auth/wrong-password' || errorCode === 'auth/user-not-found') {
                 showInvalidMsg("Invalid email or password. Please try again.");
             } else {
-                console.error(errorCode, errorMessage);
+                showInvalidMsg("Invalid email or password. Please try again.");
             }
         });
 });

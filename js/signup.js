@@ -92,13 +92,13 @@ document.getElementById("signup").addEventListener("click", function (event) {
     return;
   }
 
-  const userData = {
-    firstname: firstname,
-    lastname: lastname,
-    email: email,
-    address: address,
-    id: firebase.firestore.FieldValue.serverTimestamp(),
-  };
+  // const userData = {
+  //   firstname: firstname,
+  //   lastname: lastname,
+  //   email: email,
+  //   address: address,
+  //   id: firebase.firestore.FieldValue.serverTimestamp(),
+  // };
 
   auth
     .createUserWithEmailAndPassword(email, password)
